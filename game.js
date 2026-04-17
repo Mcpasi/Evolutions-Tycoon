@@ -13,9 +13,16 @@
  */
 
 Evo.Game = class Game {
-    constructor(speciesName) {
-        this.organism = new Evo.Organism(speciesName);
-        this.environment = new Evo.Environment();
+    constructor(speciesName, savedState) {
+        if (savedState) {
+            this.organism = Evo.Organism.fromSave(savedState.organism);
+            this.environment = Evo.Environment.fromSave(savedState.environment);
+            this.resumed = true;
+        } else {
+            this.organism = new Evo.Organism(speciesName);
+            this.environment = new Evo.Environment();
+            this.resumed = false;
+        }
         this.ui = new Evo.UI();
 
         const canvas = document.getElementById('organism-canvas');
@@ -30,12 +37,12 @@ Evo.Game = class Game {
         this.ui.updateGeneration(this.organism.generation);
         this.ui.updateGenome(this.organism.genome);
         this.ui.updateEnvironment(this.environment.state, {});
+        this.ui.updateEra(this.organism.age);
 
-        this.ui.log(
-            `${this.organism.speciesName} erwacht in der Ursuppe.`,
-            'mutation',
-            1
-        );
+        const openingMessage = this.resumed
+            ? `${this.organism.speciesName} setzt den Kampf ums Dasein fort.`
+            : `${this.organism.speciesName} erwacht in der Ursuppe.`;
+        this.ui.log(openingMessage, 'mutation', this.organism.generation);
 
         this.renderer.animate(this.organism);
 
@@ -45,6 +52,26 @@ Evo.Game = class Game {
 
     stop() {
         this.running = false;
+        this.renderer.stop();
+    }
+
+    /** Wird bei Aussterben aufgerufen. Beendet das Spiel dauerhaft. */
+    extinguish(cause) {
+        if (!this.organism.alive) return;
+        this.organism.die(cause);
+        this.running = false;
+
+        this.ui.log(
+            `AUSSTERBEN: ${cause} (Gen. ${this.organism.generation}, Alter ${this.organism.age})`,
+            'critical',
+            this.organism.generation
+        );
+        this.ui.showExtinction(this.organism, cause);
+
+        // Speicherstand entfernen — eine ausgestorbene Spezies lebt nicht weiter.
+        Evo.Save.clear();
+
+        // Ein letzter Render, dann stoppen.
         this.renderer.stop();
     }
 
@@ -87,7 +114,7 @@ Evo.Game = class Game {
             }
         }
 
-        // 5. Kritischer Stress? (reine Warnung, noch keine Todes-Logik)
+        // 5. Kritischer Stress? (Warnung vor dem Aussterben)
         const totalStress = this.organism.totalStress(stress);
         if (totalStress > 0.7 && Evo.util.chance(0.3)) {
             this.ui.log(
@@ -100,5 +127,15 @@ Evo.Game = class Game {
         // 6. UI
         this.ui.updateEnvironment(this.environment.state, stress);
         this.ui.updateEra(this.organism.age);
+
+        // 7. Aussterben? Tödliche Bedingungen beenden das Spiel endgültig.
+        const cause = this.organism.checkExtinction(stress);
+        if (cause) {
+            this.extinguish(cause);
+            return;
+        }
+
+        // 8. Fortschritt sichern
+        Evo.Save.save(this);
     }
 };
