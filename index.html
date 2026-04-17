@@ -24,9 +24,34 @@
                 >
                 <button type="submit">Leben beginnen</button>
             </form>
+
+            <div id="continue-box" class="continue-box">
+                <div class="continue-label">Fortschritt gefunden</div>
+                <div class="continue-species" id="continue-species">—</div>
+                <div class="continue-info" id="continue-info">—</div>
+                <div class="continue-actions">
+                    <button type="button" id="continue-button" class="continue-primary">Fortsetzen</button>
+                    <button type="button" id="discard-save" class="continue-secondary">Verwerfen</button>
+                </div>
+            </div>
+
             <p class="hint">Aus einer einzigen Zelle wird ein langer Weg.</p>
         </div>
     </section>
+
+    <!-- Aussterbe-Overlay -->
+    <div id="extinction-overlay" class="extinction-overlay">
+        <div class="extinction-inner">
+            <div class="extinction-title">Ausgestorben</div>
+            <div class="extinction-species" id="extinction-species">—</div>
+            <div class="extinction-cause" id="extinction-cause">—</div>
+            <div class="extinction-stats">
+                <div><span>Generation</span><strong id="extinction-generation">—</strong></div>
+                <div><span>Alter</span><strong id="extinction-age">—</strong></div>
+            </div>
+            <button type="button" id="restart-button">Neu beginnen</button>
+        </div>
+    </div>
 
     <!-- Game-Screen -->
     <section id="game-screen" class="screen">
@@ -74,6 +99,7 @@
     <script src="mutations.js"></script>
     <script src="renderer.js"></script>
     <script src="ui.js"></script>
+    <script src="save.js"></script>
     <script src="game.js"></script>
     <script src="main.js"></script>
 </body>

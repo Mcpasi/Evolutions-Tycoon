@@ -97,6 +97,14 @@ Evo.Environment = class Environment {
         return stress;
     }
 
+    /** Stellt eine Umwelt aus gespeicherten Daten wieder her. */
+    static fromSave(data) {
+        const env = new Evo.Environment();
+        if (data.state) Object.assign(env.state, data.state);
+        if (data.drift) Object.assign(env.drift, data.drift);
+        return env;
+    }
+
     _computeStress(key, organism) {
         const value = this.state[key];
         const tolerance = organism.toleranceFor(key);

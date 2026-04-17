@@ -118,6 +118,19 @@ Evo.UI = class UI {
         return map[value] || value;
     }
 
+    /** Zeigt das Aussterbe-Overlay über dem Spielbildschirm an. */
+    showExtinction(organism, cause) {
+        const overlay = document.getElementById('extinction-overlay');
+        if (!overlay) return;
+
+        document.getElementById('extinction-species').textContent = organism.speciesName;
+        document.getElementById('extinction-cause').textContent = cause;
+        document.getElementById('extinction-generation').textContent = organism.generation;
+        document.getElementById('extinction-age').textContent = organism.age;
+
+        overlay.classList.add('active');
+    }
+
     log(message, type, generation) {
         const li = document.createElement('li');
         if (type) li.classList.add(type);
