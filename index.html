@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#0a0e14">
+    <title>Evolution Tycoon</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Start-Screen: Namenseingabe -->
+    <section id="start-screen" class="screen active">
+        <div class="start-inner">
+            <h1 class="title">Evolution</h1>
+            <p class="subtitle">Gib deiner Spezies einen Namen.</p>
+            <form id="start-form" class="start-form" novalidate>
+                <input
+                    id="species-input"
+                    type="text"
+                    maxlength="24"
+                    autocomplete="off"
+                    placeholder="z.B. Protolusia primordialis"
+                    required
+                >
+                <button type="submit">Leben beginnen</button>
+            </form>
+            <p class="hint">Aus einer einzigen Zelle wird ein langer Weg.</p>
+        </div>
+    </section>
+
+    <!-- Game-Screen -->
+    <section id="game-screen" class="screen">
+        <header class="game-header">
+            <div class="species-info">
+                <span class="species-name" id="species-name">—</span>
+                <span class="generation" id="generation-display">Gen. 1</span>
+            </div>
+            <div class="time-info">
+                <span id="era-display">Präkambrium</span>
+            </div>
+        </header>
+
+        <main class="game-main">
+            <!-- Linke Seite: Organismus-Visualisierung -->
+            <div class="organism-stage">
+                <canvas id="organism-canvas"></canvas>
+            </div>
+
+            <!-- Rechte Seite: Umwelt & Log -->
+            <aside class="side-panel">
+                <div class="panel-section">
+                    <h2>Umwelt</h2>
+                    <div class="env-grid" id="env-grid"></div>
+                </div>
+
+                <div class="panel-section">
+                    <h2>Genom</h2>
+                    <div class="genome-list" id="genome-list"></div>
+                </div>
+
+                <div class="panel-section log-section">
+                    <h2>Evolutions-Log</h2>
+                    <ul class="log-list" id="log-list"></ul>
+                </div>
+            </aside>
+        </main>
+    </section>
+
+    <!-- Scripts in abhängigkeitsgerechter Reihenfolge.
+         Alles hängt am globalen Namespace "Evo". -->
+    <script src="js/namespace.js"></script>
+    <script src="js/environment.js"></script>
+    <script src="js/organism.js"></script>
+    <script src="js/mutations.js"></script>
+    <script src="js/renderer.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/game.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

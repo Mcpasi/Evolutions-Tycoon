@@ -1,0 +1,362 @@
+/* ============================================================
+   Evolution Tycoon — Stylesheet
+   ============================================================ */
+
+:root {
+    --bg-0: #07090d;
+    --bg-1: #0e141c;
+    --bg-2: #141b26;
+    --border: #1f2937;
+    --fg-0: #e5e9f0;
+    --fg-1: #9aa5b1;
+    --fg-2: #5b6674;
+    --accent: #6ee7b7;
+    --accent-dim: #34d399;
+    --warn: #fbbf24;
+    --danger: #f87171;
+    --radius: 10px;
+    --mono: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
+    --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    height: 100%;
+    overflow: hidden;
+    background: var(--bg-0);
+    color: var(--fg-0);
+    font-family: var(--sans);
+    font-size: 15px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* ============================================================
+   Screens
+   ============================================================ */
+.screen {
+    display: none;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.screen.active {
+    display: flex;
+}
+
+/* ============================================================
+   Start-Screen
+   ============================================================ */
+#start-screen {
+    align-items: center;
+    justify-content: center;
+    background:
+        radial-gradient(ellipse at 30% 20%, rgba(110, 231, 183, 0.08), transparent 50%),
+        radial-gradient(ellipse at 70% 80%, rgba(52, 211, 153, 0.05), transparent 50%),
+        var(--bg-0);
+    padding: 2rem;
+}
+
+.start-inner {
+    max-width: 440px;
+    width: 100%;
+    text-align: center;
+}
+
+.title {
+    font-size: clamp(2.5rem, 8vw, 4rem);
+    font-weight: 200;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(180deg, var(--accent), var(--accent-dim));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.subtitle {
+    color: var(--fg-1);
+    font-size: 1rem;
+    margin-bottom: 2rem;
+}
+
+.start-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+}
+
+.start-form input {
+    padding: 0.9rem 1rem;
+    background: var(--bg-1);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--fg-0);
+    font-family: var(--mono);
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.start-form input:focus {
+    border-color: var(--accent-dim);
+}
+
+.start-form button {
+    padding: 0.9rem 1rem;
+    background: var(--accent);
+    color: var(--bg-0);
+    border: none;
+    border-radius: var(--radius);
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: transform 0.15s, background 0.2s;
+}
+
+.start-form button:hover {
+    background: var(--accent-dim);
+    transform: translateY(-1px);
+}
+
+.start-form button:active {
+    transform: translateY(0);
+}
+
+.hint {
+    color: var(--fg-2);
+    font-size: 0.85rem;
+    font-style: italic;
+}
+
+/* ============================================================
+   Game-Screen
+   ============================================================ */
+#game-screen {
+    flex-direction: column;
+}
+
+.game-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.9rem 1.25rem;
+    background: var(--bg-1);
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+}
+
+.species-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+}
+
+.species-name {
+    font-family: var(--mono);
+    font-size: 1rem;
+    color: var(--accent);
+    font-style: italic;
+}
+
+.generation {
+    font-size: 0.8rem;
+    color: var(--fg-2);
+}
+
+.time-info {
+    font-size: 0.85rem;
+    color: var(--fg-1);
+    font-family: var(--mono);
+}
+
+.game-main {
+    display: grid;
+    grid-template-columns: 1fr 360px;
+    flex: 1;
+    overflow: hidden;
+}
+
+/* Organismus-Bühne */
+.organism-stage {
+    position: relative;
+    background:
+        radial-gradient(ellipse at center, rgba(110, 231, 183, 0.03), transparent 60%),
+        var(--bg-0);
+    overflow: hidden;
+}
+
+#organism-canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+/* Seitenpanel */
+.side-panel {
+    background: var(--bg-1);
+    border-left: 1px solid var(--border);
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.panel-section {
+    padding: 1rem 1.1rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.panel-section h2 {
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--fg-2);
+    margin-bottom: 0.75rem;
+}
+
+/* Umwelt-Grid */
+.env-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.6rem;
+}
+
+.env-cell {
+    background: var(--bg-2);
+    padding: 0.55rem 0.7rem;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+}
+
+.env-cell .env-label {
+    font-size: 0.7rem;
+    color: var(--fg-2);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.env-cell .env-value {
+    font-family: var(--mono);
+    font-size: 0.95rem;
+    color: var(--fg-0);
+    margin-top: 0.15rem;
+}
+
+.env-bar {
+    height: 3px;
+    background: var(--border);
+    border-radius: 2px;
+    margin-top: 0.45rem;
+    overflow: hidden;
+}
+
+.env-bar-fill {
+    height: 100%;
+    background: var(--accent-dim);
+    transition: width 0.5s ease, background 0.5s;
+}
+
+.env-bar-fill.stress { background: var(--warn); }
+.env-bar-fill.critical { background: var(--danger); }
+
+/* Genom-Liste */
+.genome-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.genome-item {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.82rem;
+    padding: 0.3rem 0;
+}
+
+.genome-item .gene-name { color: var(--fg-1); }
+.genome-item .gene-value { color: var(--fg-0); font-family: var(--mono); }
+
+/* Log */
+.log-section {
+    flex: 1;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    border-bottom: none;
+}
+
+.log-list {
+    list-style: none;
+    overflow-y: auto;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.log-list li {
+    font-size: 0.8rem;
+    color: var(--fg-1);
+    padding: 0.4rem 0.55rem;
+    background: var(--bg-2);
+    border-radius: 5px;
+    border-left: 2px solid var(--border);
+    animation: logIn 0.4s ease;
+}
+
+.log-list li.mutation { border-left-color: var(--accent); }
+.log-list li.stress { border-left-color: var(--warn); }
+.log-list li.critical { border-left-color: var(--danger); }
+
+.log-list li .log-time {
+    color: var(--fg-2);
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    margin-right: 0.4rem;
+}
+
+@keyframes logIn {
+    from { opacity: 0; transform: translateX(8px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+/* Scrollbar */
+.side-panel::-webkit-scrollbar,
+.log-list::-webkit-scrollbar { width: 6px; }
+.side-panel::-webkit-scrollbar-track,
+.log-list::-webkit-scrollbar-track { background: transparent; }
+.side-panel::-webkit-scrollbar-thumb,
+.log-list::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 3px;
+}
+
+/* ============================================================
+   Responsive
+   ============================================================ */
+@media (max-width: 900px) {
+    .game-main {
+        grid-template-columns: 1fr;
+        grid-template-rows: 40vh 1fr;
+    }
+
+    .side-panel {
+        border-left: none;
+        border-top: 1px solid var(--border);
+    }
+}
+
+@media (max-width: 500px) {
+    .env-grid { grid-template-columns: 1fr; }
+    .game-header { padding: 0.7rem 1rem; }
+    .panel-section { padding: 0.85rem 0.9rem; }
+}
